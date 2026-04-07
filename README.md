@@ -21,7 +21,7 @@ eduverse/
 2. Open `index.html` in any modern browser (Chrome, Edge, Firefox)
 3. No server needed — runs entirely in the browser
 
-## ✅ Features Implemented
+## ✅ Features Implemented are
 
 ### Admin Dashboard
 - Live stats: total students, active courses, completion %, attendance %

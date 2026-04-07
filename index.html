@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SkillUp — Learning Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div class="splash" id="splash">
+  <div class="splash-bg"></div>
+  <div class="splash-orb splash-orb1"></div>
+  <div class="splash-orb splash-orb2"></div>
+  <div class="splash-orb splash-orb3"></div>
+  <div class="splash-content">
+    <div class="splash-logo">
+      <div class="splash-logo-icon">
+        <div class="splash-cap">
+          <img src="logo.png" alt="logo" >
+          </div>    
+        <div class="splash-ring splash-ring1"></div>
+        <div class="splash-ring splash-ring2"></div>
+        <div class="splash-ring splash-ring3"></div>
+      </div>
+      <div class="splash-brand">
+        <div class="splash-name">Skill<span>Up</span></div>
+        <div class="splash-tagline">Learning Management System</div>
+      </div>
+    </div>
+    <div class="splash-loader">
+      <div class="splash-bar"><div class="splash-fill" id="splashFill"></div></div>
+      <div class="splash-status" id="splashStatus">Initializing...</div>
+    </div>
+    <div class="splash-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP SHELL ===== -->
+<div class="app" id="app" style="display:none">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="logo-icon"><span>🎓</span></div>
+      <div class="logo-text">Skill<span>Up</span></div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">Main</div>
+      <div class="nav-item active" onclick="navigate(this,'admin')" data-page="admin">
+        <div class="nav-icon">📊</div>Dashboard
+      </div>
+      <div class="nav-item" onclick="navigate(this,'students')" data-page="students">
+        <div class="nav-icon">👥</div>Students
+        <span class="nav-badge" id="badge-students">0</span>
+      </div>
+      <div class="nav-item" onclick="navigate(this,'courses')" data-page="courses">
+        <div class="nav-icon">📚</div>Courses
+      </div>
+      <div class="nav-item" onclick="navigate(this,'attendance')" data-page="attendance">
+        <div class="nav-icon">📅</div>Attendance
+      </div>
+      <div class="nav-section">Student Portal</div>
+      <div class="nav-item" onclick="navigate(this,'student-dash')" data-page="student-dash">
+        <div class="nav-icon">🏠</div>Student View
+      </div>
+      <div class="nav-item" onclick="navigate(this,'assessments')" data-page="assessments">
+        <div class="nav-icon">✅</div>Assessments
+      </div>
+      <div class="nav-item" onclick="navigate(this,'programming')" data-page="programming">
+        <div class="nav-icon">💻</div>Programming
+      </div>
+      <div class="nav-section">System</div>
+      <div class="nav-item" onclick="navigate(this,'notifications')" data-page="notifications">
+        <div class="nav-icon">🔔</div>Notifications
+        <span class="nav-badge">5</span>
+      </div>
+      <div class="nav-item" onclick="navigate(this,'settings')" data-page="settings">
+        <div class="nav-icon">⚙️</div>Settings
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="avatar">AD</div>
+        <div class="user-info">
+          <div class="user-name">Admin User</div>
+          <div class="user-role">Administrator</div>
+        </div>
+        <span style="font-size:11px;color:var(--text3)">▾</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="main">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title" id="page-title">Admin Dashboard</div>
+      <div class="search-box">
+        <span style="color:var(--text3)">🔍</span>
+        <input type="text" placeholder="Search students, courses..." id="global-search" oninput="globalSearch(this.value)">
+      </div>
+      <div class="topbar-actions">
+        <div class="icon-btn" onclick="navigate(document.querySelector('[data-page=notifications]'),'notifications')" title="Notifications">
+          🔔<span class="notif-dot"></span>
+        </div>
+        <div class="icon-btn" title="Profile">👤</div>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <div class="pages-wrap">
+
+      <!-- ========== ADMIN DASHBOARD ========== -->
+      <section class="page active" id="page-admin">
+        <div class="stats-grid">
+          <div class="stat-card purple">
+            <div class="stat-icon">👥</div>
+            <div class="stat-value" id="total-students">0</div>
+            <div class="stat-label">Total Students</div>
+            <span class="stat-change up" id="student-change">↑ +12 this month</span>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon">📚</div>
+            <div class="stat-value" id="active-courses">0</div>
+            <div class="stat-label">Active Courses</div>
+            <span class="stat-change up">↑ +2 new</span>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-value" id="completion-rate">0%</div>
+            <div class="stat-label">Completion Rate</div>
+            <span class="stat-change up">↑ +4.2%</span>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-icon">📅</div>
+            <div class="stat-value" id="attendance-rate">0%</div>
+            <div class="stat-label">Attendance Rate</div>
+            <span class="stat-change down">↓ -1.3%</span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Attendance Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">📈 Weekly Attendance</div>
+              <span class="card-action">This Week</span>
+            </div>
+            <div class="chart-bars" id="att-chart"></div>
+          </div>
+          <!-- Course Distribution -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">📊 Course Distribution</div>
+            </div>
+            <div class="donut-wrap">
+              <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="46" fill="none" stroke="var(--bg3)" stroke-width="16"/>
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#6C63FF" stroke-width="16" stroke-dasharray="115.6 173.4" stroke-dashoffset="-43.4" stroke-linecap="round" class="donut-seg"/>
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#10D98F" stroke-width="16" stroke-dasharray="72.3 216.7" stroke-dashoffset="-159" stroke-linecap="round" class="donut-seg"/>
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#FF8C42" stroke-width="16" stroke-dasharray="42.0 247.0" stroke-dashoffset="-231.3" stroke-linecap="round" class="donut-seg"/>
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#38BDF8" stroke-width="16" stroke-dasharray="59.1 229.9" stroke-dashoffset="-273.3" stroke-linecap="round" class="donut-seg"/>
+              </svg>
+              <div class="donut-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#6C63FF"></div>AWS Cloud <span class="legend-val">40%</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:#10D98F"></div>Java Dev <span class="legend-val">25%</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:#FF8C42"></div>Web Dev <span class="legend-val">14%</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:#38BDF8"></div>Data Sci <span class="legend-val">21%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">👤 Recent Students</div>
+              <span class="card-action" onclick="navigate(document.querySelector('[data-page=students]'),'students')">View All →</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Name</th><th>ID</th><th>Course</th><th>Status</th></tr></thead>
+                <tbody id="students-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">🏆 Top Performers</div></div>
+            <div id="top-performers"></div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">⚡ Quick Actions</div></div>
+          <div class="qa-grid">
+            <div class="qa-btn" onclick="showModal('add-student-modal')">
+              <div class="qa-icon" style="background:rgba(108,99,255,.2)">👤</div>
+              <div class="qa-label">Add Student</div>
+            </div>
+            <div class="qa-btn" onclick="showModal('add-course-modal')">
+              <div class="qa-icon" style="background:rgba(16,217,143,.15)">📘</div>
+              <div class="qa-label">Create Course</div>
+            </div>
+            <div class="qa-btn" onclick="navigate(document.querySelector('[data-page=assessments]'),'assessments')">
+              <div class="qa-icon" style="background:rgba(255,140,66,.15)">📝</div>
+              <div class="qa-label">Add Assessment</div>
+            </div>
+            <div class="qa-btn" onclick="navigate(document.querySelector('[data-page=attendance]'),'attendance')">
+              <div class="qa-icon" style="background:rgba(56,189,248,.15)">📅</div>
+              <div class="qa-label">Mark Attendance</div>
+            </div>
+            <div class="qa-btn" onclick="exportAttendanceExcel()">
+              <div class="qa-icon" style="background:rgba(244,114,182,.15)">📊</div>
+              <div class="qa-label">Export Reports</div>
+            </div>
+            <div class="qa-btn" onclick="showModal('add-event-modal')">
+              <div class="qa-icon" style="background:rgba(251,191,36,.15)">📢</div>
+              <div class="qa-label">Announce Event</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== STUDENTS PAGE ========== -->
+      <section class="page" id="page-students">
+        <div class="page-head">
+          <h2>All Students</h2>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn-secondary" onclick="exportAttendanceExcel()">📥 Export Excel</button>
+            <button class="btn-primary" onclick="showModal('add-student-modal')">➕ Add Student</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="filter-row">
+            <input class="form-input" style="flex:1;min-width:180px" placeholder="🔍 Search by name, ID or email..." id="student-search" oninput="filterStudents()">
+            <select class="form-input" style="width:150px" id="filter-course" onchange="filterStudents()">
+              <option value="">All Courses</option>
+              <option>AWS Cloud</option><option>Java Dev</option><option>Web Dev</option><option>Data Science</option>
+            </select>
+            <select class="form-input" style="width:130px" id="filter-status" onchange="filterStudents()">
+              <option value="">All Status</option><option>active</option><option>inactive</option><option>pending</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Student</th><th>ID</th><th>Course</th><th>Attendance</th><th>Progress</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="all-students-table"></tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span id="students-count">0 students</span>
+            <div style="display:flex;gap:6px" id="pagination"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== COURSES PAGE ========== -->
+      <section class="page" id="page-courses">
+        <div class="page-head">
+          <h2>Courses</h2>
+          <button class="btn-primary" onclick="showModal('add-course-modal')">➕ Create Course</button>
+        </div>
+        <div class="course-grid" id="courses-grid"></div>
+      </section>
+
+      <!-- ========== ATTENDANCE PAGE ========== -->
+      <section class="page" id="page-attendance">
+        <div class="page-head">
+          <h2>Attendance Tracker</h2>
+          <div style="display:flex;gap:10px">
+            <button class="btn-secondary" onclick="exportAttendanceExcel()">📥 Export Excel</button>
+            <button class="btn-primary" onclick="markAllPresent()">✅ Mark All Present</button>
+          </div>
+        </div>
+        <div class="attendance-grid">
+          <div class="att-calendar">
+            <div class="cal-header">
+              <div class="cal-month" id="cal-month-label">April 2025</div>
+              <div class="cal-nav">
+                <div class="cal-btn" onclick="changeMonth(-1)">◀</div>
+                <div class="cal-btn" onclick="changeMonth(1)">▶</div>
+              </div>
+            </div>
+            <div class="cal-days" id="calendar"></div>
+            <div style="display:flex;gap:12px;margin-top:12px;font-size:11px;color:var(--text3);flex-wrap:wrap">
+              <span><span style="display:inline-block;width:10px;height:10px;background:rgba(16,217,143,.3);border-radius:3px;margin-right:4px"></span>Present</span>
+              <span><span style="display:inline-block;width:10px;height:10px;background:rgba(248,113,113,.2);border-radius:3px;margin-right:4px"></span>Absent</span>
+              <span><span style="display:inline-block;width:10px;height:10px;border:2px solid var(--accent);border-radius:3px;margin-right:4px"></span>Today</span>
+            </div>
+          </div>
+          <div class="att-list card">
+            <div class="card-header">
+              <div class="card-title">📋 Today's Attendance</div>
+              <select class="form-input" style="width:140px;padding:5px 10px;font-size:12px" id="att-course-filter" onchange="renderAttList()">
+                <option value="">All Courses</option>
+                <option>AWS Cloud</option><option>Java Dev</option><option>Web Dev</option><option>Data Science</option>
+              </select>
+            </div>
+            <div id="att-list-items"></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:20px">
+          <div class="card-header">
+            <div class="card-title">📊 Monthly Overview</div>
+            <span class="card-action" onclick="exportAttendanceExcel()">📥 Download Excel</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Student</th><th>Course</th><th>Total Days</th><th>Present</th><th>Absent</th><th>Percentage</th><th>Status</th></tr></thead>
+              <tbody id="att-monthly-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== STUDENT DASHBOARD ========== -->
+      <section class="page" id="page-student-dash">
+        <div class="student-hero card" style="margin-bottom:20px">
+          <div class="avatar" style="width:54px;height:54px;font-size:18px">AY</div>
+          <div>
+            <div style="font-size:18px;font-weight:800;color:var(--text)">Welcome back, Arjun! 👋</div>
+            <div style="font-size:13px;color:var(--text2);margin-top:2px">AWS Cloud Computing · Batch 2025 · ID: STU-001</div>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:16px;flex-wrap:wrap">
+            <div style="text-align:center"><div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--accent3)">87%</div><div style="font-size:11px;color:var(--text3)">Attendance</div></div>
+            <div style="text-align:center"><div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--green)">4/6</div><div style="font-size:11px;color:var(--text3)">Courses</div></div>
+            <div style="text-align:center"><div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--blue)">142h</div><div style="font-size:11px;color:var(--text3)">Hours</div></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><div class="card-title">📚 My Courses</div><span class="card-action" onclick="navigate(document.querySelector('[data-page=courses]'),'courses')">View All →</span></div>
+            <div id="my-courses-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">📅 This Week's Schedule</div></div>
+            <div id="schedule-list"></div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:20px">
+          <div class="card">
+            <div class="card-header"><div class="card-title">📈 Weekly Attendance</div></div>
+            <div class="chart-bars" id="student-att-chart"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">📢 Notifications</div></div>
+            <div id="notif-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== ASSESSMENTS ========== -->
+      <section class="page" id="page-assessments">
+        <div class="page-head">
+          <h2>Assessments</h2>
+          <button class="btn-primary" onclick="showModal('add-quiz-modal')">➕ Upload Quiz</button>
+        </div>
+        <div class="course-grid" id="assessments-grid"></div>
+      </section>
+
+      <!-- ========== PROGRAMMING ========== -->
+      <section class="page" id="page-programming">
+        <div class="page-head">
+          <h2>Programming Tasks</h2>
+          <button class="btn-primary" onclick="showModal('add-task-modal')">➕ Create Task</button>
+        </div>
+        <div class="course-grid" id="tasks-grid"></div>
+      </section>
+
+      <!-- ========== NOTIFICATIONS ========== -->
+      <section class="page" id="page-notifications">
+        <div class="page-head"><h2>Notifications</h2><button class="btn-secondary" onclick="markAllRead()">✓ Mark All Read</button></div>
+        <div class="card">
+          <div id="notif-page-list"></div>
+        </div>
+      </section>
+
+      <!-- ========== SETTINGS ========== -->
+      <section class="page" id="page-settings">
+        <div class="page-head"><h2>Settings</h2></div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><div class="card-title">👤 Admin Profile</div></div>
+            <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" value="Admin User"></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" value="admin@eduverse.com"></div>
+            <div class="form-group"><label class="form-label">Phone</label><input class="form-input" value="+91 98765 43210"></div>
+            <div class="form-group"><label class="form-label">Institute Name</label><input class="form-input" value="EduVerse Institute"></div>
+            <button class="btn-primary">💾 Save Changes</button>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">🔒 Security</div></div>
+            <div class="form-group"><label class="form-label">Current Password</label><input class="form-input" type="password" placeholder="••••••••"></div>
+            <div class="form-group"><label class="form-label">New Password</label><input class="form-input" type="password" placeholder="••••••••"></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" type="password" placeholder="••••••••"></div>
+            <button class="btn-primary">🔑 Update Password</button>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">🎨 Appearance</div></div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:13px;color:var(--text2)">Email Notifications</span>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:13px;color:var(--text2)">SMS Alerts</span>
+                <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:13px;color:var(--text2)">Browser Notifications</span>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:13px;color:var(--text2)">Weekly Reports</span>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">📊 Data & Export</div></div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn-secondary" style="width:100%;justify-content:flex-start" onclick="exportAttendanceExcel()">📥 Export Attendance (Excel)</button>
+              <button class="btn-secondary" style="width:100%;justify-content:flex-start" onclick="exportStudentsCSV()">👥 Export Students (CSV)</button>
+              <button class="btn-secondary" style="width:100%;justify-content:flex-start">📈 Export Analytics (PDF)</button>
+              <button class="btn-secondary" style="width:100%;justify-content:flex-start">🗃️ Backup All Data</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- end pages-wrap -->
+  </main>
+</div><!-- end app -->
+
+<!-- ========== MODALS ========== -->
+
+<!-- ADD STUDENT MODAL -->
+<div class="modal-overlay" id="add-student-modal" style="display:none" onclick="if(event.target===this)closeModal('add-student-modal')">
+  <div class="modal">
+    <div class="modal-title">👤 Add New Student</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">First Name *</label><input class="form-input" id="fname" placeholder="Arjun"></div>
+      <div class="form-group"><label class="form-label">Last Name *</label><input class="form-input" id="lname" placeholder="Sharma"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Email Address *</label><input class="form-input" id="semail" type="email" placeholder="arjun@email.com"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" id="sphone" placeholder="+91 98765 43210"></div>
+      <div class="form-group"><label class="form-label">Date of Birth</label><input class="form-input" id="sdob" type="date"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Course *</label>
+        <select class="form-input" id="scourse">
+          <option>AWS Cloud</option><option>Java Dev</option><option>Web Dev</option><option>Data Science</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Student ID</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input class="form-input" id="sid" style="flex:1" readonly>
+          <button class="btn-secondary" style="padding:10px 12px;font-size:12px" onclick="generateCustomId()">Custom</button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Address</label><textarea class="form-input" id="saddress" rows="2" placeholder="City, State"></textarea></div>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-input" id="sstatus"><option value="active">Active</option><option value="pending">Pending</option><option value="inactive">Inactive</option></select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('add-student-modal')">Cancel</button>
+      <button class="btn-primary" onclick="addStudent()">➕ Add Student</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD COURSE MODAL -->
+<div class="modal-overlay" id="add-course-modal" style="display:none" onclick="if(event.target===this)closeModal('add-course-modal')">
+  <div class="modal">
+    <div class="modal-title">📘 Create New Course</div>
+    <div class="form-group"><label class="form-label">Course Title *</label><input class="form-input" id="ctitle" placeholder="AWS Solutions Architect"></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Level</label>
+        <select class="form-input" id="clevel"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Duration</label>
+        <input class="form-input" id="cduration" placeholder="12 weeks">
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="cdesc" rows="3" placeholder="Course description..."></textarea></div>
+    <div class="form-group"><label class="form-label">YouTube Playlist / Video URL</label><input class="form-input" id="cvideo" placeholder="https://youtube.com/playlist?list=..."></div>
+    <div class="form-group"><label class="form-label">Icon Emoji</label><input class="form-input" id="cicon" placeholder="☁️" maxlength="4"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('add-course-modal')">Cancel</button>
+      <button class="btn-primary" onclick="addCourse()">📘 Create Course</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD QUIZ MODAL -->
+<div class="modal-overlay" id="add-quiz-modal" style="display:none" onclick="if(event.target===this)closeModal('add-quiz-modal')">
+  <div class="modal">
+    <div class="modal-title">📝 Upload Quiz</div>
+    <div class="form-group"><label class="form-label">Quiz Title *</label><input class="form-input" id="qtitle" placeholder="Java OOP Test"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Course</label><select class="form-input" id="qcourse"><option>AWS Cloud</option><option>Java Dev</option><option>Web Dev</option><option>Data Science</option></select></div>
+      <div class="form-group"><label class="form-label">Questions</label><input class="form-input" id="qquestions" type="number" placeholder="25"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Duration (mins)</label><input class="form-input" id="qduration" type="number" placeholder="30"></div>
+      <div class="form-group"><label class="form-label">Due Date</label><input class="form-input" id="qdue" type="date"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('add-quiz-modal')">Cancel</button>
+      <button class="btn-primary" onclick="addQuiz()">📝 Upload Quiz</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD TASK MODAL -->
+<div class="modal-overlay" id="add-task-modal" style="display:none" onclick="if(event.target===this)closeModal('add-task-modal')">
+  <div class="modal">
+    <div class="modal-title">💻 Create Programming Task</div>
+    <div class="form-group"><label class="form-label">Task Title *</label><input class="form-input" id="ttitle" placeholder="Build a REST API"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Language</label><input class="form-input" id="tlang" placeholder="Java / Python"></div>
+      <div class="form-group"><label class="form-label">Difficulty</label><select class="form-input" id="tdiff"><option>Easy</option><option>Medium</option><option>Hard</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Description / Instructions</label><textarea class="form-input" id="tdesc" rows="4" placeholder="Describe the task requirements..."></textarea></div>
+    <div class="form-group"><label class="form-label">Deadline</label><input class="form-input" id="tdeadline" type="date"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('add-task-modal')">Cancel</button>
+      <button class="btn-primary" onclick="addTask()">💻 Create Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EVENT MODAL -->
+<div class="modal-overlay" id="add-event-modal" style="display:none" onclick="if(event.target===this)closeModal('add-event-modal')">
+  <div class="modal">
+    <div class="modal-title">📢 Announce Event</div>
+    <div class="form-group"><label class="form-label">Event Name *</label><input class="form-input" id="ename" placeholder="Tech Fest 2025"></div>
+    <div class="form-group"><label class="form-label">Date & Time</label><input class="form-input" id="edate" type="datetime-local"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="edesc" rows="3" placeholder="Event details..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('add-event-modal')">Cancel</button>
+      <button class="btn-primary" onclick="addEvent()">📢 Announce</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="js/backend.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
