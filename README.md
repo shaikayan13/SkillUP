@@ -1,8 +1,8 @@
 # EduVerse LMS — Setup Guide
 # My Skills 🚀
 
-![SkillUp Screenshot](skillup.png)
-![SkillUp Screenshot](Screenshot 2026-04-08 002653.png)
+![SkillUp Screenshot](Screenshot1.png)
+![SkillUp Screenshot](Screenshot2.png)
 
 ## 📁 Project Structure
 ```
