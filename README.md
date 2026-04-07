@@ -2,7 +2,7 @@
 # My Skills 🚀
 
 ![SkillUp Screenshot](skillup.png)
-![SkillUp Screenshot](skillup.png)
+![SkillUp Screenshot](Screenshot 2026-04-08 002653.png)
 
 ## 📁 Project Structure
 ```
